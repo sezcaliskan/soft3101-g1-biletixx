@@ -1,0 +1,34 @@
+{% extends 'events/base.html' %}
+
+<html>
+ <head>
+
+ 	</head>
+
+ 	 <body>
+
+
+{% block content %}
+
+<h1> Welcome to the Biletixx website </h1>
+
+
+{% if user.is_authenticated %}
+  Hi {{ user.username }}!
+  <p><a href="{% url 'logout' %}">Log Out</a></p>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">Log In</a>
+{% endif %}
+
+<br/>
+
+        
+
+{% endblock %}
+
+</body>
+
+
+
+</html>
