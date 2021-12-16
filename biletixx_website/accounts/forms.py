@@ -8,6 +8,7 @@ from accounts.models import RegisteredUser, User
 
 class EventHolderSignUpForm(UserCreationForm):
     email = forms.EmailField(required=True)
+    
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ("username", "email")

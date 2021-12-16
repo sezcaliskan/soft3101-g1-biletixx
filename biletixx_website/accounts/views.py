@@ -9,13 +9,19 @@ from django.views.generic import TemplateView
 from accounts.forms import  EventHolderSignUpForm, RegisteredUserSignUpForm
 from accounts.models import  RegisteredUser,  User
 from accounts.forms import UserCreationForm
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponse
+from django.contrib.auth.forms import PasswordResetForm
+from django.template.loader import render_to_string
+from django.db.models.query_utils import Q
+from django.utils.http import urlsafe_base64_encode
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
 
 def profile(request):
     context = {}
     return render(request, 'registration/profile.html')
 
-#def login_user(request):
-	#return render(request, 'registration/login.html', {})
 
 class SignUpView(TemplateView):
     template_name = 'registration/signup.html'
