@@ -19,5 +19,6 @@ urlpatterns = [
     path('accounts/signup/eventholder/', views.EventHolderSignUpView.as_view(), name='eventholder_signup'),
     path('profile/', views.profile, name='profile'),
     
+  
     
 ]

@@ -15,9 +15,10 @@ def search(request):
     
     event_list = Event.objects.all()
     event_filter = EventFilter(request.GET,queryset=event_list)
-   
+    event_list = event_filter.qs
     
-    return render(request, 'events/search.html', {'filter': event_filter})
+    context = { 'event_filter':event_filter ,'event_list':event_list }
+    return render(request, 'events/search.html', context)
 
 
 

@@ -1,10 +1,15 @@
-import django_filters
-
+import django_filters as df
+from django import forms
 from .models import *
 
 
 
-class EventFilter(django_filters.FilterSet):
+class EventFilter(df.FilterSet):
+
+
     class Meta:
         model = Event
-        fields = ['place', 'eventtype', 'date', ]
+        fields = ['eventtype','place','date']
+
+
+
