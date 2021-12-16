@@ -23,7 +23,7 @@ class Event(models.Model):
     name = models.CharField(max_length=100)
     place = models.CharField(max_length=200, null=True, choices=EVENTPLACE)
     eventtype = models.CharField(max_length=200, null=True, choices=EVENTTYPE)
-    date = models.CharField(max_length=200, null=True, choices=EVENTDATE)
+    date = models.CharField(max_length=200, null=True)
 
 
 
