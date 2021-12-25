@@ -1,0 +1,49 @@
+
+
+<html>
+ <head>
+   <style>
+div {
+  background-color: pink;
+  width: 300px;
+  border: 15px solid gray;
+  padding: 50px;
+  margin: 20px;
+}
+</style>
+ 	</head>
+
+ 	 <body>
+
+
+{% block content %}
+
+
+
+
+
+
+
+
+<center>
+<h1> {{ event.name }} </h1>
+<br/>
+{{event.place}}<br/>
+{{event.eventtype}}<br/>
+{{event.date}}<br/>
+
+<div>{{event.description}}</div>
+
+</center>
+
+
+
+        
+
+{% endblock %}
+
+</body>
+
+
+
+</html>

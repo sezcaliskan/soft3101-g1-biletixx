@@ -4,8 +4,26 @@
 {% block content %}
 
 <h2>PROFILE PAGE HERE</h2>
+
+{% if user.is_authenticated and user.is_eventholder %}
+
+<p>You logged in as a an event older.</p>
+      <a href="{% url 'add_event' %}">Add Event</a>
+       <br/>
+      <a href="{% url 'list_eventholder_events'  %}">Show event list then Delete Event</a>
+       <br/>
+      <a href="{% url 'password_change' %}">change password</a>
+    {% else %}
+
+    <p>You logged in as a an registered user.</p>
+      <a href="{% url 'password_change' %}">change password</a>
+    {% endif %}
+
+
+
+
 <br/>
 
-<a href="{% url 'password_change' %}">change password</a>
+
 
 {% endblock %}

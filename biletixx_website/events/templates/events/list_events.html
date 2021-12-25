@@ -1,0 +1,45 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+<br>
+<div class="row">
+	<div class="col">
+		<div class="card card-body">
+
+			<form method="get">
+				{{event_filter.form}}
+				
+
+		    <button class="btn btn-primary" type="submit">Search</button>
+		  </form>
+
+		</div>
+	</div>
+	
+</div>
+<br>
+
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+			<table class="table table-sm">
+				<tr>
+					<th>Event Name</th>
+					
+				</tr>
+
+				{% for event in event_list %}
+
+				<tr>
+					<td> <a href="{% url 'show_event' event.id %}">{{event.name}}</a> </td>
+					
+					
+				</tr>
+				{% endfor %}
+
+			</table>
+		</div>
+	</div>
+</div>
+ 
+{% endblock %}

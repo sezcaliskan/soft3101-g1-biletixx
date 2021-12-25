@@ -1,5 +1,5 @@
 from django.db import models
-
+from accounts.models import User
 
 class Event(models.Model):
     EVENTTYPE = (
@@ -24,7 +24,8 @@ class Event(models.Model):
     place = models.CharField(max_length=200, null=True, choices=EVENTPLACE)
     eventtype = models.CharField(max_length=200, null=True, choices=EVENTTYPE)
     date = models.CharField(max_length=200, null=True)
-
+    description = models.CharField(max_length=200, null=True)
+    manager = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
 
 
 class Ticket_Class(models.Model):
