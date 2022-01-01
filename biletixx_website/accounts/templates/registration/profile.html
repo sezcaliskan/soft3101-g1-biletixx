@@ -10,13 +10,15 @@
 <p>You logged in as a an event older.</p>
       <a href="{% url 'add_event' %}">Add Event</a>
        <br/>
-      <a href="{% url 'list_eventholder_events'  %}">Show event list then Delete Event</a>
+      <a href="{% url 'list_eventholder_events'  %}"> Delete Event or Edit Event</a>
        <br/>
       <a href="{% url 'password_change' %}">change password</a>
     {% else %}
 
     <p>You logged in as a an registered user.</p>
       <a href="{% url 'password_change' %}">change password</a>
+      <br/>
+      <a href="{% url 'my_tickets' %}">Show My Tickets</a>
     {% endif %}
 
 

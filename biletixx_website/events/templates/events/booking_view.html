@@ -1,0 +1,29 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+
+
+	<h1>Book Ticket</h1>
+<br/><br/>
+
+<h1>This page should show buy ticket function</h1>
+
+
+		<form action="" method=POST>
+			{% csrf_token %}
+
+			{{ form.as_p }}
+
+			<input type="submit" value="Submit" class="btn btn-secondary">
+
+		</form>
+
+	
+		
+
+<br/><br/>	
+
+
+
+
+{% endblock %}

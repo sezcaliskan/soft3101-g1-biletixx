@@ -1,0 +1,30 @@
+{% extends 'events/base.html' %}
+
+<html>
+ <head>
+
+<h1> Ticket List </h1>
+
+ 	</head>
+
+ 	 <body>
+
+
+{% block content %}
+
+{% for booking in booking_list %}
+
+<h2> {{booking}}</h2>
+
+{% endfor %}
+
+
+        
+
+{% endblock %}
+
+</body>
+
+
+
+</html>

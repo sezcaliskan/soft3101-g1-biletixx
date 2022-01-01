@@ -4,7 +4,7 @@
  <head>
    <style>
 div {
-  background-color: pink;
+  background-color: purple;
   width: 300px;
   border: 15px solid gray;
   padding: 50px;
@@ -25,20 +25,23 @@ div {
 
 
 
+
+
 <center>
-<h1> {{ event.name }} </h1>
+<h1> <font size="10" color="black">{{ event.name }}</font> </h1>
 <br/>
-{{event.place}}<br/>
-{{event.eventtype}}<br/>
-{{event.date}}<br/>
+<font size="4" color="purple">Event Place:</font>{{event.place}}<br/>
+<font size="4" color="purple">Event Type:</font>{{event.eventtype}}<br/>
+<font size="4" color="purple">Event Date:</font>{{event.date}}<br/>
+<font size="4" color="purple">Event Hour:</font>{{event.hour}} <br/>
+<font size="4" color="purple">Event Venue:</font>{{event.venue}} <br/>
 
 <div>{{event.description}}</div>
 
 </center>
 
 
-
-        
+<a href="{% url 'booking_view'  %}">Create/Book Ticket</a>    
 
 {% endblock %}
 

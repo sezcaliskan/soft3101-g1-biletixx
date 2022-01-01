@@ -7,7 +7,9 @@
 		<div class="card card-body">
 
 			<form method="get">
+
 				{{event_filter.form}}
+				
 				
 
 		    <button class="btn btn-primary" type="submit">Search</button>
@@ -25,6 +27,12 @@
 			<table class="table table-sm">
 				<tr>
 					<th>Event Name</th>
+					<th>Event Place</th>
+					<th>Event Type</th>
+					<th>Event Date</th>
+					<th>Event Hour</th>
+					<th>Event Venue</th>
+
 					
 				</tr>
 
@@ -32,6 +40,11 @@
 
 				<tr>
 					<td> <a href="{% url 'show_event' event.id %}">{{event.name}}</a> </td>
+					<td> {{event.place}} </td>
+					<td> {{event.eventtype}} </td>
+					<td> {{event.date}} </td>
+					<td> {{event.hour}} </td>
+					<td> {{event.venue}} </td>
 					
 					
 				</tr>
