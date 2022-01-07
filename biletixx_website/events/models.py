@@ -42,6 +42,8 @@ class Event(models.Model):
     #User.add_to_class('manager',models.ManyToManyField('self', symmetrical=False))
     #manager = request.user
     manager = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null=True)
+    price = models.IntegerField(null=True)
+    max_sellable_tickets= models.IntegerField(null=True)
 
     def __str__(self):
         return f'{self.name}'
@@ -49,25 +51,24 @@ class Event(models.Model):
 
 class Ticket(models.Model):
     event = models.ForeignKey(Event,on_delete=models.CASCADE,null=True)
-    price = models.IntegerField(null=True)
-    ticketname = models.CharField(max_length=100)
-    max_sellable_tickets= models.IntegerField(null=True)
-    
-
-
-
-    def __str__(self):
-        return f'{self.ticketname} with price {self.price}tl '
-
-    
-
-class Booking(models.Model):
-    ticket= models.ForeignKey(Ticket,on_delete=models.CASCADE)
+    #ticketname = models.CharField(max_length=100)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null=True)
     
-    
+
+
+
     def __str__(self):
-        return f'{self.user} has booked {self.ticket}'
+        return f'{self.event}  '
+
+    
+
+#class Booking(models.Model):
+    #ticket= models.ForeignKey(Ticket,on_delete=models.CASCADE)
+    #user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null=True)
+    
+    
+   #def __str__(self):
+       # return f'{self.user} has booked {self.ticket}'
 
    
 

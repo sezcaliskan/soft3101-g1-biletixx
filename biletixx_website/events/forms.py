@@ -8,7 +8,7 @@ class DateInput(forms.DateInput):
 class EventForm(ModelForm):
 	class Meta:
 		model = Event
-		fields = ('name', 'place', 'eventtype', 'date', 'description','venue','hour')
+		fields = ('name', 'place', 'eventtype', 'date', 'description','venue','hour','price','max_sellable_tickets')
 		labels = {
         'name': '',
         'place': 'Event Place',
@@ -17,7 +17,10 @@ class EventForm(ModelForm):
 		'description': '',
 		'venue': 'Event Venue',
 		'hour': 'Event Hour',
+		'price': 'Event Price',
+		'max_sellable_tickets': 'Max Sellable Tickets',
 		'manager': 'Manager',
+
 
 		}
 
@@ -30,10 +33,12 @@ class EventForm(ModelForm):
 			'description': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Description'}),
 			'venue': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Event Venue'}),
 			'hour': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Event Hour'}),
+			'price': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Event Price'}),
+			'max_sellable_tickets': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Max Sellable Tickets'}),
 			'manager': forms.Select(attrs={'class':'form-select', 'placeholder':'Manager'}),
 		}
 
-	
+
 
 
 

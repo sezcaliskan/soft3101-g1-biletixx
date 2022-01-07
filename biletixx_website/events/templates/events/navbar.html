@@ -11,8 +11,9 @@
     <a class="nav-link" href="{% url 'list_events' %}">Search</a>
     
   </li>
-       
+       {% if user.is_authenticated %}
     <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+       {% endif %}
         
       </ul>
      ,

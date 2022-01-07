@@ -32,20 +32,25 @@
 					<th>Event Date</th>
 					<th>Event Hour</th>
 					<th>Event Venue</th>
-
+					<th>Event Price</th>
+                    
 					
 				</tr>
 
 				{% for event in event_list %}
 
 				<tr>
+					
 					<td> <a href="{% url 'show_event' event.id %}">{{event.name}}</a> </td>
 					<td> {{event.place}} </td>
 					<td> {{event.eventtype}} </td>
 					<td> {{event.date}} </td>
 					<td> {{event.hour}} </td>
 					<td> {{event.venue}} </td>
+					<td> {{event.price}} </td>
+
 					
+
 					
 				</tr>
 				{% endfor %}
@@ -53,6 +58,8 @@
 			</table>
 		</div>
 	</div>
+
+	
 </div>
  
 {% endblock %}

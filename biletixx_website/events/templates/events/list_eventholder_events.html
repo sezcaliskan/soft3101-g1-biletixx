@@ -8,6 +8,7 @@
 
   {% for event in event_list %}
 
+</br>
     <div class="card">
   <div class="card-header">
     
@@ -24,6 +25,8 @@
 <li>Event Venue: {{ event.venue }}</li>
 <li>Description: {{ event.description }}</li>
 <li>Created by: {{ event.manager }}</li>
+<li>Event Price: {{ event.price }}</li>
+<li>Max Sellable Tickets: {{ event.max_sellable_tickets}}</li>
   
   </ul>
 
@@ -39,9 +42,12 @@
         <a href="{% url 'delete_event' event.id %}" class="btn btn-outline-danger btn-sm">Delete Event</a>
         <a href="{% url 'update_event' event.id %}" class="btn btn-outline-danger btn-sm">Edit Event</a>
         
+        
       </div>
  
 </div>
+
+</br>
 
 {% endfor %}
   

@@ -1,0 +1,19 @@
+{% extends 'events/base.html' %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+
+<h2>UPDATE PROFILE </h2>
+<br/>
+
+<div style="margin:20px">
+    <form method="POST">
+        {% csrf_token %}
+    {{user_form|crispy}}
+    <br/>
+    <input type="submit" value="Update Profile">
+</form>
+</div>
+
+
+{% endblock %}

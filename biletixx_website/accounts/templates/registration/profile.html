@@ -3,25 +3,154 @@
 
 {% block content %}
 
-<h2>PROFILE PAGE HERE</h2>
 
-{% if user.is_authenticated and user.is_eventholder %}
-
-<p>You logged in as a an event older.</p>
-      <a href="{% url 'add_event' %}">Add Event</a>
-       <br/>
-      <a href="{% url 'list_eventholder_events'  %}"> Delete Event or Edit Event</a>
-       <br/>
-      <a href="{% url 'password_change' %}">change password</a>
-    {% else %}
-
-    <p>You logged in as a an registered user.</p>
-      <a href="{% url 'password_change' %}">change password</a>
-      <br/>
-      <a href="{% url 'my_tickets' %}">Show My Tickets</a>
-    {% endif %}
+</br>
+</br>
 
 
+
+<!-- Page Container -->
+<div class="w3-content w3-margin-top" style="max-width:1400px;">
+
+  <!-- The Grid -->
+  <div class="w3-row-padding">
+  
+    <!-- Left Column -->
+    <div class="w3-third">
+    
+      <div class="w3-white w3-text-grey w3-card-4">
+        <div class="w3-display-container">
+          
+          <div class="w3-display-bottomleft w3-container w3-text-black">
+           
+            <h2>{{user.username}}</h2>
+          </div>
+        </div>
+        </br>
+        <div class="w3-container">
+          <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>First Name : {{user.first_name}}</p>
+          <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>Last Name : {{user.last_name}}</p>
+          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>Email : {{user.email}}</p>
+          <p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>1224435534</p>
+          <hr>
+
+          
+          <br>
+        </div>
+      </div><br>
+
+    <!-- End Left Column -->
+    </div>
+
+    <!-- Right Column -->
+    <div class="w3-twothird">
+    
+      <div class="w3-container w3-card w3-white w3-margin-bottom">
+
+        {% if  request.user.is_superuser %}
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Admin Profile</h2>
+        <div class="w3-container">
+        <h5 class="w3-opacity"><b>Show User List</b></h5>
+          <h6 class="w3-text-teal">
+          <p>You can Show User Accouns on This Website as a List if you click this button.You can also delete user accounts.</p>
+         <a href="{% url 'user_list' %}">Show User List</a>
+
+
+         
+         {% endif %}
+
+         {% if user.is_authenticated and user.is_eventholder %}
+        <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Event Holder Profile</h2>
+        <div class="w3-container">
+          
+
+     
+          <h5 class="w3-opacity"><b>Add Event</b></h5>
+          <h6 class="w3-text-teal">
+          <p>You can add events with this button..</p> 
+          <a href="{% url 'add_event' %}">Add Event</a>
+          
+          <hr>
+        </div>
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b>Delete Event or Edit Event</b></h5>
+          <h6 class="w3-text-teal">
+          <p>You can delete or edit events with this button.</p>
+          <a href="{% url 'list_eventholder_events'  %}"> Delete Event or Edit Event</a>
+          <hr>
+        </div>
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b>Change Password</b></h5>
+          <h6 class="w3-text-teal">
+          <p>You can change your password with this button. </p><br>
+           <a href="{% url 'password_change' %}">change password</a>
+        </div>
+        <hr>
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b>Edit Profile</b></h5>
+          <h6 class="w3-text-teal">
+          <p>You can edit your profile with this button. </p><br>
+           <a href="{% url 'profile_update'%}">Edit</a>
+        </div>
+
+        {% endif %}
+
+         {% if user.is_authenticated and user.is_registereduser %}
+
+         <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>User Profile</h2>
+        <div class="w3-container">
+          
+
+     
+          <h5 class="w3-opacity"><b>Show my Tickets</b></h5>
+          <h6 class="w3-text-teal">
+          <p>You can see your tickets if you click this button.</p>
+           <a href="{% url 'my_tickets' %}">Show My Tickets</a>
+          <hr>
+
+
+          <h5 class="w3-opacity"><b>Add Address</b></h5>
+          <h6 class="w3-text-teal">
+          <p>You can add your address with this button..</p> 
+          <a href="{% url 'add_address' %}">Add Address</a>
+
+          <hr>
+
+                <h5 class="w3-opacity"><b>Edit or Delete Your Address Address</b></h5>
+          <h6 class="w3-text-teal">
+          <p>You can add your address with this button..</p> 
+          <a href="{% url 'address_list' %}">Edit or Delete Address</a>
+
+          <hr>
+        </div>
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b>Change Password</b></h5>
+          <h6 class="w3-text-teal">
+          <p>You can change your password with this button. </p><br>
+           <a href="{% url 'password_change' %}">change password</a>
+
+
+      </div>
+        <hr>
+       <div class="w3-container">
+          <h5 class="w3-opacity"><b>Edit Profile</b></h5>
+          <h6 class="w3-text-teal">
+          <p>You can edit your profile with this button. </p><br>
+           <a href="{% url 'profile_update'%}">Edit</a>
+        </div>
+
+       {% endif %}
+      
+      </div>
+
+    <!-- End Right Column -->
+    </div>
+    
+  <!-- End Grid -->
+  </div>
+  
+  <!-- End Page Container -->
+</div>
 
 
 <br/>

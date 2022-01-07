@@ -1,0 +1,53 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+  
+  <h2>Your Addresses s</h2>
+  <p1>You can see your addresses here.</p1>
+  <br/>
+
+  {% for address in address_list %}
+
+</br>
+    <div class="card">
+  <div class="card-header">
+    
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Address Name: {{ address.addressname }}</h5>
+    <p class="card-text">
+      <ul>
+<li>Event Place: {{ event.place }}</li>
+
+<li>Address: {{ address.address }}</li>
+<li>Country: {{ address.country}}</li>
+<li>City: {{ address.city }}</li>
+<li>ZIP: {{ address.ZIP }}</li>
+<li>AddressOwner: {{ address.addressowner }}</li>
+
+  
+  </ul>
+
+
+
+    </p>
+  </div>
+ 
+      <div class="card-footer text-muted">
+        
+        
+
+        <a href="{% url 'delete_address' address.id %}" class="btn btn-outline-danger btn-sm">Delete Address</a>
+        <a href="{% url 'update_address' address.id %}" class="btn btn-outline-danger btn-sm">Edit Adress</a>
+        
+        
+      </div>
+ 
+</div>
+
+</br>
+
+{% endfor %}
+  
+  
+{% endblock %}

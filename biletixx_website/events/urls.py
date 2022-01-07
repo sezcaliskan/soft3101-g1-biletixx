@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import TicketList, BookingList, BookingView
+from .views import TicketList
 
 urlpatterns = [
     path('', views.home, name="home"),
@@ -10,10 +10,13 @@ urlpatterns = [
     path('delete_event/<event_id>', views.delete_event, name="delete_event"),
     path('list_eventholder_events', views.list_eventholder_events, name="list_eventholder_events"),
     path('events/ticket_list', TicketList.as_view(), name='ticket_list'),
-    path('events/booking_list', BookingList.as_view(), name='booking_list'),
-    path('book', views.BookingView, name='booking_view'),
+    #path('events/booking_list', BookingList.as_view(), name='booking_list'),
+    #path('book', views.BookingView, name='booking_view'),
     path('update_event/<event_id>', views.update_event, name='update_event'),
     path('my_tickets', views.my_tickets_view, name='my_tickets'),
+    path('buy_ticket', views.buy_ticket, name='buy_ticket'),
+    # path('buy_ticket2', views.buy_ticket2, name='buy_ticket2'),
+    path('delete_ticket/<ticket_id>', views.delete_ticket, name="delete_ticket"),
 
     
 

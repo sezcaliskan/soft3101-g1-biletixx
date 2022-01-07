@@ -4,5 +4,5 @@ from .models import *
 
 admin.site.register(Event)
 admin.site.register(Ticket)
-admin.site.register(Booking)
+
 

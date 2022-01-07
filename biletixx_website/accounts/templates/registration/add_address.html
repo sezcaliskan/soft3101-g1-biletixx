@@ -1,0 +1,31 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+
+
+	<h1>Add Address</h1>
+<br/><br/>
+
+{% if submitted %}
+		Your Address Was Submitted Succefully!!!
+
+	{% else %}
+
+		<form action="" method=POST>
+			{% csrf_token %}
+
+			{{ form.as_p }}
+
+			<input type="submit" value="Submit" class="btn btn-secondary">
+
+		</form>
+
+	
+		{% endif %}
+
+<br/><br/>	
+
+
+
+
+{% endblock %}
