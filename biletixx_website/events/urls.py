@@ -11,12 +11,13 @@ urlpatterns = [
     path('list_eventholder_events', views.list_eventholder_events, name="list_eventholder_events"),
     path('events/ticket_list', TicketList.as_view(), name='ticket_list'),
     #path('events/booking_list', BookingList.as_view(), name='booking_list'),
-    #path('book', views.BookingView, name='booking_view'),
+    #path('book', views.BookingView, name='booking_view'),{}
     path('update_event/<event_id>', views.update_event, name='update_event'),
     path('my_tickets', views.my_tickets_view, name='my_tickets'),
-    path('buy_ticket', views.buy_ticket, name='buy_ticket'),
+    path('buy_ticket/<event_id>', views.buy_ticket, name='buy_ticket'),
     # path('buy_ticket2', views.buy_ticket2, name='buy_ticket2'),
     path('delete_ticket/<ticket_id>', views.delete_ticket, name="delete_ticket"),
+    path('checkout_view', views.checkout_view, name="checkout_view"),
 
     
 
