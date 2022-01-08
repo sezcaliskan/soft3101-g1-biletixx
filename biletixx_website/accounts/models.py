@@ -33,7 +33,7 @@ class Address(models.Model):
     address = models.CharField(max_length=500)
     country = models.CharField(max_length=200, null=True, choices=COUNTRY)
     city = models.CharField(max_length=200, null=True, choices=CITY)
-    ZIP = models.IntegerField(max_length=100, null=True)
+    ZIP = models.CharField(max_length=100, null=True)
     addressowner =  models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null=True)
 
 

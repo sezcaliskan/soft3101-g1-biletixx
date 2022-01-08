@@ -17,8 +17,7 @@ urlpatterns = [
     path('buy_ticket/<event_id>', views.buy_ticket, name='buy_ticket'),
     # path('buy_ticket2', views.buy_ticket2, name='buy_ticket2'),
     path('delete_ticket/<ticket_id>', views.delete_ticket, name="delete_ticket"),
-    path('checkout_view', views.checkout_view, name="checkout_view"),
-
+    path('checkout', views.checkout_view, name="checkout"),
+    path('buy_ticket_info', views.buy_ticket_info, name="buy_ticket_info"),
     
-
 ]

@@ -12,8 +12,7 @@ from django.views.generic import ListView, FormView
 from events.models import Ticket
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
-
-
+from accounts.models import Address
 
 def home(request):
     return render(request, 'events/home.html', {})
@@ -116,7 +115,7 @@ def buy_ticket(request, event_id=None):
     count = request.POST.get('count') 
 
     #### sonradan silinecek asagidaki satir
-    count = 1
+    #count = 1
 
     print("event id {}".format(event_id))
     event = get_object_or_404(Event, pk=int(event_id))
@@ -173,7 +172,7 @@ def buy_ticket(request, event_id=None):
         else:
             total_cost = event.price
 
-        return render(request, 'events/buy_ticket.html', {'total_cost':total_cost, 'ticket_list':ticket_list})
+        return render(request, 'events/buy_ticket_info.html', {'user':user, 'total_cost':total_cost, 'ticket_list':ticket_list})
 
     print("iflere giremedim")
     return redirect('home')
@@ -204,11 +203,15 @@ def delete_ticket(request, ticket_id):
 
 
 def checkout_view(request):
+    me = request.user.id
+    address_list = Address.objects.filter(addressowner=me)
+    context = { 'address_list':address_list }
+    return render(request, 'events/checkout.html')
 
-    x = 2
+def buy_ticket_info(request):
+    context = {  }
+    return render(request, 'events/buy_ticket_info.html', context)
 
-    return None
-                 
 
 
 
