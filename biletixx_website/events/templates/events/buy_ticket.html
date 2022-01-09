@@ -9,6 +9,9 @@
 
  	 <body>
 
+{{ total_cost }}
+
+
 
 {% block content %}
 
@@ -16,14 +19,6 @@
 
 <h2> {{ticket.event.price}}</h2>
 
-
-
-
-
-
-
-
-<a href="{% url 'checkout_view'   %}">Checkhout</a>
 
 {% endfor %}
 

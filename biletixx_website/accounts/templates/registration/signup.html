@@ -1,9 +1,94 @@
 {% block content %}
-	<h2>Signup Page</h2>
 
-	<h2>Sign up for a free account</h2>
-  <p class="lead">Select below the type of account you want to create</p>
-  <a href="{% url 'registereduser_signup' %}" class="btn btn-student btn-lg" role="button">I'm a user</a>
-  <a href="{% url 'eventholder_signup' %}" class="btn btn-teacher btn-lg" role="button">I'm a eventholder</a>
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		html,body {height:100%; position:relative; background:#46465A;}
+.center-table {display:table; width:100%; height:100%;
+  .center-cell {display:table-cell; vertical-align:middle;}
+}
+
+#select-box {min-width:320px; max-width:30%; width:100%; margin:0 auto; padding:2em; text-align:center; background:#fff;}
+
+.faux-select {list-style-type:none; padding: 0.4em 0; background:#46465A; color:#fff; text-align:left; border:3px solid #000; cursor:pointer; width:150px; display:inline-block; position:relative;
+  li {padding:0; text-indent:1em; position:relative;
+    .options {display:block; list-style-type:none; padding:0; margin:0.4em 0 0 0; background:transparent; position:absolute; width:100%; max-height:0px; overflow:hidden; border:3px solid transparent; top:1.2em; left:-0.2em; transition:all ease 0.25s;
+      li {padding:0.4em 0; border-bottom:1px solid rgba(255,255,255,0.4);
+        &:hover {background:rgba(255,255,255,0.2);}
+        &:last-of-type{border-bottom:0;}
+      }
+    }
+    .options.open{background:#2F2F3F; max-height:1000%; border:3px solid #000; border-top:3px solid transparent;}
+  }
+  &:before {content:''; width: 0; height: 0; border-left: 0.5em solid transparent;  border-right: 0.5em solid transparent;  border-top: 0.8em solid #fff; position:absolute; top:0.5em; right:1em; transition:all ease 0.25s;}
+}
+
+.faux-select.open{
+  &:before {border-left: 0.5em solid transparent; border-right: 0.5em solid transparent;  border-bottom: 0.8em solid #fff; border-top:0;}
+}
+
+
+
+	</style>
+</head>
+
+
+
+
+<body style="background-color:gray;">
+
+
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+
+
+
+
+
+
+<div class="center-table">
+  <div class="center-cell">
+    <div id="select-box">
+      <h2>Sign up for a free account</h2>
+      <p class="lead">Select below the type of account you want to create</p>
+     
+     <h3><a href="{% url 'registereduser_signup' %}" class="btn btn-student btn-lg" role="button">I'm a user</a></h3>
+     
+     
+      <ul >
+        
+   <h3><a href="{% url 'eventholder_signup' %}" class="btn btn-teacher btn-lg" role="button">I'm a eventholder</a></h3>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+</body>
+
+
+
+
+
+</html>
+	
+
+
+
+
+
+
+
+
+
+
+
 
   {% endblock %}

@@ -18,10 +18,14 @@
     
   </div>
   <div class="card-body">
-    <h5 class="card-title">My Ticket</h5>
+    <h5 class="card-title">My Ticket ID: {{ ticket.id  }}</h5>
     <p class="card-text">
       <ul>
-<li>Ticket for the Event: : {{ ticket.event  }}</li>
+<li>Ticket for the Event:  {{ ticket.event  }}</li>
+<li>Ticket Date:  {{ ticket.event.date  }}</li>
+<li>Ticket Hour:  {{ ticket.event.hour  }}</li>
+<li>Ticket Venue:  {{ ticket.event.venue  }}</li>
+
 
 
   

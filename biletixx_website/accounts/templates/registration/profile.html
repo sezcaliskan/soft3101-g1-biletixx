@@ -31,7 +31,7 @@
           <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>First Name : {{user.first_name}}</p>
           <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>Last Name : {{user.last_name}}</p>
           <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>Email : {{user.email}}</p>
-          <p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>1224435534</p>
+           
           <hr>
 
           
@@ -50,7 +50,7 @@
         {% if  request.user.is_superuser %}
         <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>Admin Profile</h2>
         <div class="w3-container">
-        <h5 class="w3-opacity"><b>Show User List</b></h5>
+        <h5 class="w3-opacity"><b>Show RegisteredUser and EventHolder List</b></h5>
           <h6 class="w3-text-teal">
           <p>You can Show User Accouns on This Website as a List if you click this button.You can also delete user accounts.</p>
          <a href="{% url 'user_list' %}">Show User List</a>

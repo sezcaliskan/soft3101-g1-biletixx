@@ -12,6 +12,7 @@ from django.views.generic import ListView, FormView
 from events.models import Ticket
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from accounts.models import Address
 
 
 
@@ -102,8 +103,9 @@ class TicketList(ListView):
     
 
 
-def buy_ticket(request):
+def buy_ticket(request, event_id=None):
 
+    print("hello ticket, i will purchase you")
     print("buy_ticket---user{}".format(request.user))
 
     if request.user.is_authenticated:
@@ -111,13 +113,18 @@ def buy_ticket(request):
     else:
         return redirect('login') 
 
-    event_id = request.POST.get('event_id') # isimleri html'deki gibi duzelt
+    # urls'e event id gibi parametre olarak ekle, metoda event id gibi input olarak aldşir asagidaki satiri ucur
     count = request.POST.get('count') 
 
+    #### sonradan silinecek asagidaki satir
+    #count = 1
+
+    print("event id {}".format(event_id))
     event = get_object_or_404(Event, pk=int(event_id))
 
-    if event is None: 
+    if event is None:
         return redirect('home')
+
 
     ticket_list = []
     
@@ -130,14 +137,16 @@ def buy_ticket(request):
     
     #uygun bilet sayısından fazla bilet almak isterse
     if int(count)>availableCapacity:
-        return redirect('home')
+        print(" uygun bilet yok :(")
+        messages.success(request, ("Not enough of tickets!")) 
+        return redirect('list_events')
 
     else:
 
          #birden fazla bilet almak isterse
         if int(count) > 1:
 
-            for i in range (0, int('count')):
+            for i in range (0, int(count)):
                 try: 
                     ticket = Ticket(event=event, user=request.user)
                     ticket.save()
@@ -165,8 +174,9 @@ def buy_ticket(request):
         else:
             total_cost = event.price
 
-        return render(request, 'events/buy_ticket.html', {'total_cost':total_cost, 'ticket_list':ticket_list})
+        return render(request, 'events/buy_ticket_info.html', {'availableCapacity':availableCapacity, 'total_cost':total_cost, 'ticket_list':ticket_list})
 
+    print("iflere giremedim")
     return redirect('home')
 
 
@@ -194,7 +204,18 @@ def delete_ticket(request, ticket_id):
      #return render(request,'events/buy_ticket2.html', context)
 
 
-   
+def checkout_view(request):
+    me = request.user.id
+    address_list = Address.objects.filter(addressowner=me)
+    context = { 'address_list':address_list }
+    return render(request, 'events/checkout.html')
+
+
+def buy_ticket_info(request):
+    
+    context = {  }
+    return render(request,'events/buy_ticket_info.html', context)
+    
                  
 
 
