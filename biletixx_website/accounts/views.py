@@ -115,7 +115,7 @@ def add_address(request):
 
 def delete_address(request, address_id):
     address = Address.objects.get(pk=address_id)
-    if 2>1:
+    if request.user.is_authenticated:
         address.delete()
         messages.success(request, ("Address Deleted!!"))
         return redirect('address_list')      

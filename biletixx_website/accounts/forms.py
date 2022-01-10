@@ -62,7 +62,7 @@ class AddressForm(ModelForm):
         'country': 'country',
         'city': 'city',
         'ZIP': 'zip',
-        'addressowner':'',
+        
 
         }
 
@@ -72,6 +72,5 @@ class AddressForm(ModelForm):
             'country': forms.Select(attrs={'class':'form-select', 'placeholder':'Country'}),
             'city': forms.Select(attrs={'class':'form-select', 'placeholder':'City'}),
             'ZIP': forms.TextInput(attrs={'class':'form-control', 'placeholder':'ZIP'}),
-            'addressowner': forms.Select(attrs={'class':'form-select', 'placeholder':'Address Owner'}),
             
         }

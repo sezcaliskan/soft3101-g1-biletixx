@@ -20,7 +20,7 @@
     
   </div>
   <div class="card-body">
-    <h5 class="card-title">UserName:{{u.username}}</h5>
+    <h5 class="card-title">UserName: {{u.username}}</h5>
     <p class="card-text">
       <ul>
 
@@ -29,14 +29,14 @@
 
     <tr>
     
-    <li>{{u.email}}</li>
-    <li>{{u.first_name}}</li>
-     <li>{{u.last_name}}</li>
+    <li>Email: {{u.email}}</li>
+    <li>First Name: {{u.first_name}}</li>
+     <li>Last Name: {{u.last_name}}</li>
 {% if u.is_registereduser %}
-     <li>registered user</li>
+     <li>User Type: Registered User</li>
      {% endif %}
 {% if u.is_eventholder %}
-     <li>eventholder</li>
+     <li>User Type: EventHolder</li>
      {% endif %}
 
 

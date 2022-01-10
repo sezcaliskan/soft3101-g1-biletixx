@@ -31,7 +31,7 @@
           <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>First Name : {{user.first_name}}</p>
           <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>Last Name : {{user.last_name}}</p>
           <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>Email : {{user.email}}</p>
-           
+          
           <hr>
 
           
@@ -55,7 +55,7 @@
           <p>You can Show User Accouns on This Website as a List if you click this button.You can also delete user accounts.</p>
          <a href="{% url 'user_list' %}">Show User List</a>
 
-
+            
          
          {% endif %}
 
@@ -65,6 +65,12 @@
           
 
      
+          <h5 class="w3-opacity"><b>Add Event</b></h5>
+          <h6 class="w3-text-teal">
+          <p>You can add events with this button..</p> 
+          <a href="{% url 'add_event' %}">Add Event</a>
+
+          
           <h5 class="w3-opacity"><b>Add Event</b></h5>
           <h6 class="w3-text-teal">
           <p>You can add events with this button..</p> 
@@ -116,7 +122,9 @@
 
           <hr>
 
-                <h5 class="w3-opacity"><b>Edit or Delete Your Address Address</b></h5>
+
+
+                <h5 class="w3-opacity"><b>Show my addresses and delete or edit them</b></h5>
           <h6 class="w3-text-teal">
           <p>You can add your address with this button..</p> 
           <a href="{% url 'address_list' %}">Edit or Delete Address</a>
@@ -154,6 +162,7 @@
 
 
 <br/>
+
 
 
 

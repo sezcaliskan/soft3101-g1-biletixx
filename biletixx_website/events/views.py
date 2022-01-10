@@ -49,7 +49,7 @@ def add_event(request):
             event = form.save(commit=False)
             event.manager = request.user # logged in user
             form.save()
-            return HttpResponseRedirect('/add_event?submitted=True')
+            return HttpResponseRedirect('events/list_events')
     else:
         form = EventForm
         if 'submitted' in request.GET:
@@ -113,7 +113,7 @@ def buy_ticket(request, event_id=None):
     else:
         return redirect('login') 
 
-    # urls'e event id gibi parametre olarak ekle, metoda event id gibi input olarak aldşir asagidaki satiri ucur
+   
     count = request.POST.get('count') 
 
     #### sonradan silinecek asagidaki satir
@@ -195,13 +195,6 @@ def delete_ticket(request, ticket_id):
 
 
 
- #def buy_ticket2(request):
-
-
-   
-    
-     #context = { }
-     #return render(request,'events/buy_ticket2.html', context)
 
 
 def checkout_view(request):
