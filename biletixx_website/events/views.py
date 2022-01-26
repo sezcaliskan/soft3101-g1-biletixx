@@ -12,8 +12,17 @@ from django.views.generic import ListView, FormView
 from events.models import Ticket
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
-from accounts.models import Address
+from accounts.models import Address, RegisteredUser
+import _datetime
 
+
+def check_expiration(event):
+    today = _datetime.date.today()
+
+    if event.date < today: #if the event date has past
+        return True  # event has expired
+    else:
+        return False # event has not expired
 
 
 def home(request):
@@ -48,8 +57,12 @@ def add_event(request):
         if form.is_valid():
             event = form.save(commit=False)
             event.manager = request.user # logged in user
-            form.save()
-            return HttpResponseRedirect('events/list_events')
+            if check_expiration(event) is True:
+                messages.success(request, ("You cant add an event with a past date!!!"))
+                return redirect('list_eventholder_events')  
+            else:  
+                form.save()
+                return HttpResponseRedirect('list_eventholder_events')
     else:
         form = EventForm
         if 'submitted' in request.GET:
@@ -61,23 +74,38 @@ def add_event(request):
 
 def delete_event(request, event_id):
     event = Event.objects.get(pk=event_id)
+    #tickettobedeleted= Ticket.objects.get(event=event)
+    #usersthatboughtthetciket=tickettobedeleted.user
     if request.user == event.manager:
-        event.delete()
-        messages.success(request, ("Event Deleted!!"))
-        return redirect('list_eventholder_events')      
+        if check_expiration(event) is True:  
+           messages.success(request, ("This event has expired! You can't delete it!!"))
+           return redirect('list_eventholder_events')
+        else:
+            event.delete()
+            messages.success(request, ("Event Deleted!!"))
+            return redirect('list_eventholder_events')      
     else:
         messages.success(request, ("You Aren't Authorized To Delete This Event!"))
         return redirect('list_eventholder_events')  
   
 def update_event(request, event_id):
     event = Event.objects.get(pk=event_id)
-    form = EventForm(request.POST or None, instance=event)
+    if check_expiration(event) is True: #if event is expired
+        messages.success(request, ("This event has expired! You can't edit it!!"))
+        return redirect('list_eventholder_events') 
+    else:
+        form = EventForm(request.POST or None, instance=event)
     if form.is_valid():
-        form.save()
-        return redirect('list_eventholder_events')
+        if check_expiration(event) is True:
+            messages.success(request, ("You cant edit an event to be at a passed date!!"))
+            return redirect('list_eventholder_events')  
+        else:
+            form.save()
+            return redirect('list_eventholder_events')
 
     context = { 'event':event , 'form':form }
     return render(request, 'events/update_event.html', context)
+    
 
 
 def list_eventholder_events(request):
@@ -100,13 +128,50 @@ def my_tickets_view(request):
 
 class TicketList(ListView):
     model = Ticket
+
+def add_money(request):
+
+    submitted = False
+
+    if request.method == "POST":
+
+        reguserforwallet=RegisteredUser.objects.get(user=request.user)
+
+        reguserforupdate=RegisteredUser.objects.filter(user=request.user)
+
+        moneyatwallet=reguserforwallet.wallet_money
+
+        add_amount = request.POST.get('add_amount') 
     
+        #add_amount = 1
+        updatedmoney=moneyatwallet + int(add_amount)
+
+        reguserforupdate.update(wallet_money=updatedmoney)
+
+        messages.success(request, ("Money is added!!"))
+
+
+        return render(request, 'registration/profile.html', {})
+
+    else:
+        if 'submitted' in request.GET:
+            submitted = True
+
+        
+    return render(request, 'events/add_money.html', {'submitted':submitted}) 
+
 
 
 def buy_ticket(request, event_id=None):
 
     print("hello ticket, i will purchase you")
     print("buy_ticket---user{}".format(request.user))
+    
+
+    reguserforwallet=RegisteredUser.objects.get(user=request.user)
+    moneyatwallet=reguserforwallet.wallet_money
+    reguserforupdate=RegisteredUser.objects.filter(user=request.user)
+    
 
     if request.user.is_authenticated:
         user = request.user
@@ -114,7 +179,7 @@ def buy_ticket(request, event_id=None):
         return redirect('login') 
 
    
-    count = request.POST.get('count') 
+    count = request.POST.get('count') #alınacak bilet sayısı
 
     #### sonradan silinecek asagidaki satir
     #count = 1
@@ -125,6 +190,9 @@ def buy_ticket(request, event_id=None):
     if event is None:
         return redirect('home')
 
+    if check_expiration(event) is True:
+        messages.success(request, ("Event has expired! You can't buy a ticket!")) 
+        return redirect('list_events')
 
     ticket_list = []
     
@@ -149,7 +217,14 @@ def buy_ticket(request, event_id=None):
             for i in range (0, int(count)):
                 try: 
                     ticket = Ticket(event=event, user=request.user)
-                    ticket.save()
+                    if moneyatwallet<ticket.event.price:
+                        messages.success(request, ("you dont have enough money"))
+                        return render(request, 'registration/profile.html')
+                    else:
+
+                        ticket.save()
+                        reguserforupdate.update(wallet_money=moneyatwallet-ticket.event.price)
+                        messages.success(request, ("you bought the ticket! wallet money is reduced"))
                 except:
                     print("ticket olusturulurken problem oldu")
                 finally:
@@ -159,8 +234,15 @@ def buy_ticket(request, event_id=None):
         else:
             try:
                 ticket = Ticket(event=event, user=request.user)
-                ticket.save()
-                ticket_list.append(ticket)
+                if moneyatwallet<ticket.event.price:
+                    messages.success(request, ("you dont have enough money"))
+                    return render(request, 'registration/profile.html')
+                else:
+
+                    ticket.save()
+                    reguserforupdate.update(wallet_money=moneyatwallet-ticket.event.price)
+                    messages.success(request, ("you bought the ticket! wallet money is reduced"))
+                    ticket_list.append(ticket)
             except:
                 print("ticket olustururken bir hata oldu")
 
@@ -180,14 +262,22 @@ def buy_ticket(request, event_id=None):
     return redirect('home')
 
 
-def delete_ticket(request, ticket_id):
+def delete_ticket(request, ticket_id): #cancel ticket function
     ticket = Ticket.objects.get(pk=ticket_id)
-    if request.user.is_authenticated:
+    reguserforwallet=RegisteredUser.objects.get(user=request.user)
+
+    reguserforupdate=RegisteredUser.objects.filter(user=request.user)
+    
+    ticketprice=ticket.event.price
+    moneyatwallet=reguserforwallet.wallet_money
+   
+    if check_expiration(ticket.event) is False: #if event is not expired
         ticket.delete()
-        messages.success(request, ("Ticket Cancelled!!"))
-        return redirect('my_tickets')      
-    else:
-        messages.success(request, ("You Aren't Authorized To Delete This Event!"))
+        reguserforupdate.update(wallet_money=ticketprice+moneyatwallet)
+        messages.success(request, ("Ticket Cancelled!! Your money is returned!")) #you can cancel it
+        return render(request, 'registration/profile.html')      
+    else: #else if event is expired
+        messages.success(request, ("This event has already expired, you can't cancel your ticket!")) #you CANT cancel it
         return redirect('my_tickets')  
 
 
@@ -201,13 +291,13 @@ def checkout_view(request):
     me = request.user.id
     address_list = Address.objects.filter(addressowner=me)
     context = { 'address_list':address_list }
-    return render(request, 'events/checkout.html')
+    return render(request, 'registration/profile.html')
 
 
 def buy_ticket_info(request):
     
     context = {  }
-    return render(request,'events/buy_ticket_info.html', context)
+    return render(request,'events/home.html', context)
     
                  
 

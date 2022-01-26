@@ -209,6 +209,7 @@ h1 {
 <font size="4" color="purple">Event Hour:</font>{{event.hour}} <br/>
 <font size="4" color="purple">Event Venue:</font>{{event.venue}} <br/>
 <font size="4" color="purple">Event Description:</font>{{event.description}} <br/>
+<font size="4" color="purple">Event Price:</font>{{event.price}} <br/>
         
         <form action="{% url 'buy_ticket' event.id  %}" method="post">
   <select name="count" id="count">

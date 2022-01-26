@@ -31,7 +31,10 @@
           <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>First Name : {{user.first_name}}</p>
           <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>Last Name : {{user.last_name}}</p>
           <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>Email : {{user.email}}</p>
-          
+          {% if user.is_authenticated and user.is_registereduser %}
+          <p><i class="fa fa-money fa-fw w3-margin-right w3-large w3-text-teal"></i>WALLET MONEY : {{reguserdeneme.wallet_money}}</p>
+          {% endif %}
+          <!-- <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>First Name Deneme : {{reguserdeneme.user.first_name}}</p>  -->
           <hr>
 
           
@@ -71,10 +74,6 @@
           <a href="{% url 'add_event' %}">Add Event</a>
 
           
-          <h5 class="w3-opacity"><b>Add Event</b></h5>
-          <h6 class="w3-text-teal">
-          <p>You can add events with this button..</p> 
-          <a href="{% url 'add_event' %}">Add Event</a>
           
           <hr>
         </div>
@@ -106,6 +105,15 @@
          <h2 class="w3-text-grey w3-padding-16"><i class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>User Profile</h2>
         <div class="w3-container">
           
+         <h5 class="w3-opacity"><b>Add Money to Wallet</b></h5>
+          <h6 class="w3-text-teal">
+          <p>You can add money if you click this button.</p>
+           <a href="{% url 'add_money' %}">Add Money</a>
+          
+
+        
+
+        <hr>
 
      
           <h5 class="w3-opacity"><b>Show my Tickets</b></h5>

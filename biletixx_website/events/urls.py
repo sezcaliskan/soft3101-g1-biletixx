@@ -19,5 +19,6 @@ urlpatterns = [
     path('delete_ticket/<ticket_id>', views.delete_ticket, name="delete_ticket"),
     path('checkout', views.checkout_view, name="checkout"),
     path('buy_ticket_info', views.buy_ticket_info, name="buy_ticket_info"),
+    path('add_money', views.add_money, name="add_money"),
     
 ]

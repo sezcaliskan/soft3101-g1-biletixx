@@ -112,7 +112,7 @@ span.price {
 </head>
 <body>
 
-<h2> Checkout Form</h2>
+<h2> Checkout Form for buying Ticket with wallet money</h2>
 
 <div class="row">
   <div class="col-75">
@@ -121,7 +121,7 @@ span.price {
       
         <div class="row">
           <div class="col-50">
-            <h3>Billing Address</h3>
+            <h3>Your info</h3>
             <label  for="fname"><i class="fa fa-user"></i> Full Name</label>
             <input type="text" id="fname" name="firstname" placeholder="John M. Doe" required>
             <label for="email"><i class="fa fa-envelope"></i> Email</label>
@@ -131,48 +131,14 @@ span.price {
             <label for="city"><i class="fa fa-institution"></i> City</label>
             <input type="text" id="city" name="city" placeholder="New York" required>
 
-            <div class="row">
-              <div class="col-50">
-                <label for="state">State</label>
-                <input type="text" id="state" name="state" placeholder="NY" required>
-              </div>
-              <div class="col-50">
-                <label for="zip">Zip</label>
-                <input type="number" id="zip" name="zip" placeholder="10001"  min="10000" max="99999"  required>
-              </div>
-            </div>
+           
           </div>
 
-          <div class="col-50">
-            <h3>Payment</h3>
-            <label for="fname">Accepted Cards</label>
-            <div class="icon-container">
-              <i class="fa fa-cc-visa" style="color:navy;"></i>
-              <i class="fa fa-cc-amex" style="color:blue;"></i>
-              <i class="fa fa-cc-mastercard" style="color:red;"></i>
-              <i class="fa fa-cc-discover" style="color:orange;"></i>
-            </div>
-            <label for="cname">Name on Card</label>
-            <input type="text" id="cname" name="cardname" placeholder="John More Doe" required>
-            <label for="ccnum">Credit card number</label>
-            <input type="number" id="ccnum" name="cardnumber" placeholder="1111222233334444" min="1000000000000000" max="9999999999999999" required>
-            <label for="expmonth">Exp Month</label>
-            <input type="number" id="expmonth" name="expmonth" placeholder="1" required min="1" max="12">
-            <div class="row">
-              <div class="col-50">
-                <label for="expyear">Exp Year</label>
-                <input type="number" id="expyear" name="expyear" placeholder="2018" required min="2022">
-              </div>
-              <div class="col-50">
-                <label for="cvv">CVV</label>
-                <input type="number" id="cvv" name="cvv" placeholder="352" required min="100" max="999">
-              </div>
-            </div>
-          </div>
+          
           
         </div>
        
-        <input type="submit" value="Continue to checkout" class="btn">
+        <input type="submit" value="Pay with WALLET" class="btn">
       </form>
     </div>
   </div>

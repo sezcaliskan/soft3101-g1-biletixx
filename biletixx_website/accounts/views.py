@@ -20,6 +20,7 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth import logout
 from .forms import *
 from django.http import HttpResponseRedirect
+from events.models import Event
 
 
 
@@ -30,17 +31,35 @@ def user_list(request):
     return render(request, "registration/user_list.html",{'list':list})
 
 def user_delete(request, pk):
-    u = User.objects.filter(email=pk)
-    u.delete()
-
-    return redirect('user_list')
+    u = User.objects.get(email=pk)
+    if u.is_eventholder is True:
+        eventsbythatuser = Event.objects.filter(manager=u)  #delete edilecek olan userın eventlerinin listesi
+        eventsbythatuser.update(manager=request.user) # delete edilecek eventlerin managerını admin yap
+        #print(Event.objects.filter(manager=u) )
+        u.delete()  # manager değişimi bitti, userı delete et
+        return redirect('user_list') 
+    
+    else:
+        u.delete() #eventholder değilse managerlık durumu yok direk delete et
+        return redirect('user_list') 
+   
 
 def profile(request):
     current_user = request.user
-    context = {
-       'user': current_user
+    if current_user.is_registereduser is True:
+        reguserdeneme=RegisteredUser.objects.get(user=current_user)
+        context = {
+       'user': current_user,
+       'reguserdeneme': reguserdeneme
+        }
+        return render(request, 'registration/profile.html', context)
+
+    else:
+        context = {
+       'user': current_user,
     }
-    return render(request, 'registration/profile.html', context)
+
+        return render(request, 'registration/profile.html', context)
 
 
 def profile_update(request):
