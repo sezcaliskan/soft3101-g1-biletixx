@@ -37,10 +37,11 @@ def user_delete(request, pk):
         eventsbythatuser.update(manager=request.user) # delete edilecek eventlerin managerını admin yap
         #print(Event.objects.filter(manager=u) )
         u.delete()  # manager değişimi bitti, userı delete et
+        messages.success(request, ("eventholder silindi. eventlerinin managerlığı admine devredildi"))
         return redirect('user_list') 
     
     else:
-        u.delete() #eventholder değilse managerlık durumu yok direk delete et
+        u.delete() # user eventholder değilse managerlık durumu yok direk delete et
         return redirect('user_list') 
    
 

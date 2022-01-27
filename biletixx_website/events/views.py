@@ -14,6 +14,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from accounts.models import Address, RegisteredUser
 import _datetime
+from _datetime import timedelta
 
 
 def check_expiration(event):
@@ -23,6 +24,7 @@ def check_expiration(event):
         return True  # event has expired
     else:
         return False # event has not expired
+
 
 
 def home(request):
@@ -51,6 +53,8 @@ def show_event(request, event_id):
 
 def add_event(request):
     submitted = False
+    today = _datetime.datetime.today()
+    today=_datetime.datetime.strptime(str(today), '%Y-%m-%d %H:%M:%S.%f')
 
     if request.method == "POST":
         form = EventForm(request.POST)
@@ -60,6 +64,10 @@ def add_event(request):
             if check_expiration(event) is True:
                 messages.success(request, ("You cant add an event with a past date!!!"))
                 return redirect('list_eventholder_events')  
+            elif event.date> (today.date()+timedelta(days=365)): #eklenen eventin tarihi bugünün tarihinden maks 1 yıl ilerde olabilir
+                messages.success(request, ("eklenecek event tarihi bugünün tarihinden maks 1 yıl ilerde olabilir!!!"))
+                return redirect('list_eventholder_events')
+
             else:  
                 form.save()
                 return HttpResponseRedirect('list_eventholder_events')
@@ -74,34 +82,72 @@ def add_event(request):
 
 def delete_event(request, event_id):
     event = Event.objects.get(pk=event_id)
-    #tickettobedeleted= Ticket.objects.get(event=event)
+    tickettobedeleted = Ticket.objects.filter(event=event)
+    
     #usersthatboughtthetciket=tickettobedeleted.user
+
+    
+
+    
     if request.user == event.manager:
         if check_expiration(event) is True:  
            messages.success(request, ("This event has expired! You can't delete it!!"))
            return redirect('list_eventholder_events')
         else:
+            for i in tickettobedeleted:
+                userr=i.user
+                print("delete_event---user:{}".format(userr))
+                atama=RegisteredUser.objects.filter(user=userr)
+                print("delete_event---atama:{}".format(atama))
+                reguserforwallet=RegisteredUser.objects.get(user=userr)
+                moneyatwallet=reguserforwallet.wallet_money
+                #print("delete_event---atama.wallet_money:{}".format(atama.wallet_money))
+                #atama.wallet_money.update(10)
+                atama.update(wallet_money=moneyatwallet+i.event.price)
+                #atama.wallet_money+i.event.price
+            
+            
+            print('Out of loop')
             event.delete()
+
             messages.success(request, ("Event Deleted!!"))
             return redirect('list_eventholder_events')      
     else:
         messages.success(request, ("You Aren't Authorized To Delete This Event!"))
         return redirect('list_eventholder_events')  
   
+
+
+
 def update_event(request, event_id):
+    today = _datetime.datetime.today()
+    today=_datetime.datetime.strptime(str(today), '%Y-%m-%d %H:%M:%S.%f')
     event = Event.objects.get(pk=event_id)
+    eventdatebefore = event.date
     if check_expiration(event) is True: #if event is expired
         messages.success(request, ("This event has expired! You can't edit it!!"))
         return redirect('list_eventholder_events') 
-    else:
+    else: #if event is NOT expired
         form = EventForm(request.POST or None, instance=event)
-    if form.is_valid():
-        if check_expiration(event) is True:
-            messages.success(request, ("You cant edit an event to be at a passed date!!"))
-            return redirect('list_eventholder_events')  
-        else:
-            form.save()
-            return redirect('list_eventholder_events')
+        if form.is_valid(): #form validse
+            if event.date> (eventdatebefore+timedelta(days=10)): #kontrol1 #burdaki event.date formda yeni yazılmış olan
+                 messages.success(request, ("You cant edit an event to be more than 10 days late!!"))
+                 return redirect('list_eventholder_events')
+
+           
+            #elif check_expiration(event) is True: #kontrol2
+                #messages.success(request, ("You cant edit an event to be at a passed date!!"))
+                #return redirect('list_eventholder_events')  
+
+            elif event.date<eventdatebefore:
+                messages.success(request, ("event tarihi güncel tarihten daha geri alınamaz!!"))
+                return redirect('list_eventholder_events') 
+
+            
+            else:
+                form.save()
+                return redirect('list_eventholder_events')
+            
 
     context = { 'event':event , 'form':form }
     return render(request, 'events/update_event.html', context)
@@ -151,7 +197,7 @@ def add_money(request):
         messages.success(request, ("Money is added!!"))
 
 
-        return render(request, 'registration/profile.html', {})
+        return render(request, 'events/home.html', {})
 
     else:
         if 'submitted' in request.GET:
@@ -167,11 +213,19 @@ def buy_ticket(request, event_id=None):
     print("hello ticket, i will purchase you")
     print("buy_ticket---user{}".format(request.user))
     
+    if request.user.is_eventholder:
+        messages.success(request, ("eventholder cant buy ticket!")) 
+        return redirect('list_events')
+
+    if request.user.is_superuser:
+        messages.success(request, ("admin cant buy ticket!")) 
+        return redirect('list_events')
 
     reguserforwallet=RegisteredUser.objects.get(user=request.user)
     moneyatwallet=reguserforwallet.wallet_money
     reguserforupdate=RegisteredUser.objects.filter(user=request.user)
     
+   
 
     if request.user.is_authenticated:
         user = request.user
@@ -217,20 +271,21 @@ def buy_ticket(request, event_id=None):
             for i in range (0, int(count)):
                 try: 
                     ticket = Ticket(event=event, user=request.user)
-                    if moneyatwallet<ticket.event.price:
+                    if moneyatwallet<ticket.event.price*int(count):
                         messages.success(request, ("you dont have enough money"))
                         return render(request, 'registration/profile.html')
                     else:
 
                         ticket.save()
-                        reguserforupdate.update(wallet_money=moneyatwallet-ticket.event.price)
-                        messages.success(request, ("you bought the ticket! wallet money is reduced"))
+                        reguserforupdate.update(wallet_money=moneyatwallet-ticket.event.price*int(count))
+                        
                 except:
                     print("ticket olusturulurken problem oldu")
                 finally:
                     ticket_list.append(ticket)
 
-        
+            messages.success(request, ("you bought the ticket! wallet money is reduced"))
+
         else:
             try:
                 ticket = Ticket(event=event, user=request.user)
@@ -275,7 +330,7 @@ def delete_ticket(request, ticket_id): #cancel ticket function
         ticket.delete()
         reguserforupdate.update(wallet_money=ticketprice+moneyatwallet)
         messages.success(request, ("Ticket Cancelled!! Your money is returned!")) #you can cancel it
-        return render(request, 'registration/profile.html')      
+        return render(request, 'events/home.html')      
     else: #else if event is expired
         messages.success(request, ("This event has already expired, you can't cancel your ticket!")) #you CANT cancel it
         return redirect('my_tickets')  
