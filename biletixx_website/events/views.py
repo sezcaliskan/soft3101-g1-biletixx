@@ -79,6 +79,7 @@ def add_event(request):
     return render(request, 'events/add_event.html', {'form':form, 'submitted':submitted})
     
 
+#co author added
 
 def delete_event(request, event_id):
     event = Event.objects.get(pk=event_id)
